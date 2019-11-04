@@ -22,7 +22,7 @@ type DomainCheckRsp struct {
 }
 
 func (c *Client) CheckDomain(payload *DomainCheckReq) (*DomainCheckRsp, error) {
-	body, err := c.api.DoPost(checkDomainUrl, payload)
+	body, err := c.post(checkDomainPath, payload)
 
 	if err != nil {
 		return nil, err

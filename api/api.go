@@ -5,20 +5,23 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"errors"
-	"github.com/huysamen/domains-go/domains"
 	"io/ioutil"
 	"net"
 	"net/http"
 	"os"
 	"reflect"
 	"time"
+
+	"github.com/huysamen/domains-go/domains"
 )
 
-const BaseUrl = "https://api-v3.domains.co.za/api"
+const baseUrl = "https://api-v3.domains.co.za/api"
 
 type Api struct {
-	key  string
-	http *http.Client
+	apiKey string
+	http   *http.Client
+
+	Domains *domains.Client
 }
 
 func Default() (*Api, error) {
@@ -28,8 +31,8 @@ func Default() (*Api, error) {
 		return nil, errors.New("no api key present")
 	}
 
-	return &Api{
-		key: apiKey,
+	api := &Api{
+		apiKey: apiKey,
 		http: &http.Client{
 			Timeout: time.Second * 60,
 			Transport: &http.Transport{
@@ -47,19 +50,23 @@ func Default() (*Api, error) {
 				},
 			},
 		},
-	}, nil
+	}
+
+	api.createServices()
+
+	return api, nil
 }
 
-func (a *Api) Domains() *domains.Client {
-	return domains.Create(a)
+func (a *Api) createServices() {
+	a.Domains = domains.Create(a.post)
 }
 
-func (a *Api) DoPost(url string, payload interface{}) ([]byte, error) {
+func (a *Api) post(path string, payload interface{}) ([]byte, error) {
 	pt := reflect.ValueOf(payload).Elem()
 	f := pt.FieldByName("Key")
 
 	if f.IsValid() {
-		f.SetString(a.key)
+		f.SetString(a.apiKey)
 	}
 
 	req, err := json.Marshal(payload)
@@ -68,7 +75,7 @@ func (a *Api) DoPost(url string, payload interface{}) ([]byte, error) {
 		return nil, err
 	}
 
-	rsp, err := a.http.Post(url, "application/json", bytes.NewBuffer(req))
+	rsp, err := a.http.Post(baseUrl+path, "application/json", bytes.NewBuffer(req))
 
 	if err != nil {
 		return nil, err

@@ -1,28 +1,20 @@
 package domains
 
 import (
-	"fmt"
-	"github.com/huysamen/domains-go/api"
+	"github.com/huysamen/domains-go/types"
 )
 
 const (
-	checkDomain         = "/domain/domain/check"
-	registerDomain      = "/domain/domain/create"
-	transferDomain      = "/domain/domain/transfer"
-	transferDomainCheck = "/domain/domain/transferCheck"
-)
-
-var (
-	checkDomainUrl         = fmt.Sprintf("%s%s", api.BaseUrl, checkDomain)
-	registerDomainUrl      = fmt.Sprintf("%s%s", api.BaseUrl, registerDomain)
-	transferDomainUrl      = fmt.Sprintf("%s%s", api.BaseUrl, transferDomain)
-	transferDomainCheckUrl = fmt.Sprintf("%s%s", api.BaseUrl, transferDomainCheck)
+	checkDomainPath         = "/domain/domain/check"
+	registerDomainPath      = "/domain/domain/create"
+	transferDomainPath      = "/domain/domain/transfer"
+	transferDomainCheckPath = "/domain/domain/transferCheck"
 )
 
 type Client struct {
-	api *api.Api
+	post types.PostRequest
 }
 
-func Create(api *api.Api) *Client {
-	return &Client{api: api}
+func Create(post types.PostRequest) *Client {
+	return &Client{post: post}
 }

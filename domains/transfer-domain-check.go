@@ -21,7 +21,7 @@ type DomainTransferCheckRsp struct {
 }
 
 func (c *Client) TransferDomainCheck(payload *DomainTransferCheckReq) (*DomainTransferCheckRsp, error) {
-	body, err := c.api.DoPost(transferDomainCheckUrl, payload)
+	body, err := c.post(transferDomainCheckPath, payload)
 
 	if err != nil {
 		return nil, err

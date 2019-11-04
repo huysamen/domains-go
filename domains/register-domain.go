@@ -30,7 +30,7 @@ type DomainRegisterRsp struct {
 }
 
 func (c *Client) RegisterDomain(payload *DomainRegisterReq) (*DomainRegisterRsp, error) {
-	body, err := c.api.DoPost(registerDomainUrl, payload)
+	body, err := c.post(registerDomainPath, payload)
 
 	if err != nil {
 		return nil, err

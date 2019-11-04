@@ -29,7 +29,7 @@ type DomainTransferRsp struct {
 }
 
 func (c *Client) TransferDomain(payload *DomainTransferReq) (*DomainTransferRsp, error) {
-	body, err := c.api.DoPost(transferDomainUrl, payload)
+	body, err := c.post(transferDomainPath, payload)
 
 	if err != nil {
 		return nil, err
