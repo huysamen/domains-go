@@ -29,7 +29,7 @@ type DomainRegisterRsp struct {
 	ExpiryDate int    `json:"intExDate"`
 }
 
-func (c *Client) RegisterDomain(payload *DomainRegisterReq) (*DomainRegisterRsp, error) {
+func (c *Client) RegisterDomain(payload DomainRegisterReq) (*DomainRegisterRsp, error) {
 	body, err := c.post(registerDomainPath, payload)
 
 	if err != nil {

@@ -20,7 +20,7 @@ type DomainTransferCheckRsp struct {
 	Domains    []DomainTransferStatus `json:"arrDomains"`
 }
 
-func (c *Client) TransferDomainCheck(payload *DomainTransferCheckReq) (*DomainTransferCheckRsp, error) {
+func (c *Client) TransferDomainCheck(payload DomainTransferCheckReq) (*DomainTransferCheckRsp, error) {
 	body, err := c.post(transferDomainCheckPath, payload)
 
 	if err != nil {

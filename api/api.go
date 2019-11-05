@@ -69,7 +69,7 @@ func (a *Api) post(path string, payload interface{}) ([]byte, error) {
 		f.SetString(a.apiKey)
 	}
 
-	req, err := json.Marshal(payload)
+	req, err := json.Marshal(&payload)
 
 	if err != nil {
 		return nil, err

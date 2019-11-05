@@ -28,7 +28,7 @@ type DomainTransferRsp struct {
 	Registrant string `json:"strRegistrant"`
 }
 
-func (c *Client) TransferDomain(payload *DomainTransferReq) (*DomainTransferRsp, error) {
+func (c *Client) TransferDomain(payload DomainTransferReq) (*DomainTransferRsp, error) {
 	body, err := c.post(transferDomainPath, payload)
 
 	if err != nil {

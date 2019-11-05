@@ -21,7 +21,7 @@ type DomainCheckRsp struct {
 	IsPremium   bool   `json:"isPremium,string"`
 }
 
-func (c *Client) CheckDomain(payload *DomainCheckReq) (*DomainCheckRsp, error) {
+func (c *Client) CheckDomain(payload DomainCheckReq) (*DomainCheckRsp, error) {
 	body, err := c.post(checkDomainPath, payload)
 
 	if err != nil {
