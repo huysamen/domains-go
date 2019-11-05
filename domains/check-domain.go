@@ -3,7 +3,6 @@ package domains
 import "encoding/json"
 
 type DomainCheckReq struct {
-	Key string `json:"key"`
 	SLD string `json:"sld"`
 	TLD string `json:"tld"`
 }
@@ -22,7 +21,7 @@ type DomainCheckRsp struct {
 }
 
 func (c *Client) CheckDomain(payload DomainCheckReq) (*DomainCheckRsp, error) {
-	body, err := c.post(checkDomainPath, payload)
+	body, err := c.post(checkDomainPath, &payload)
 
 	if err != nil {
 		return nil, err

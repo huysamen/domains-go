@@ -3,7 +3,6 @@ package domains
 import "encoding/json"
 
 type DomainRegisterReq struct {
-	Key                     string `json:"key"`
 	SLD                     string `json:"sld"`
 	TLD                     string `json:"tld"`
 	RegistrantName          string `json:"registrantName"`

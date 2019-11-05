@@ -9,7 +9,6 @@ import (
 	"net"
 	"net/http"
 	"os"
-	"reflect"
 	"time"
 
 	"github.com/huysamen/domains-go/domains"
@@ -62,15 +61,14 @@ func (a *Api) createServices() {
 }
 
 func (a *Api) post(path string, payload interface{}) ([]byte, error) {
-	pt := reflect.ValueOf(payload).Elem()
-	f := pt.FieldByName("Key")
-
-	if f.IsValid() {
-		f.SetString(a.apiKey)
+	p, err := convertToMap(payload)
+	if err != nil {
+		return nil, err
 	}
 
-	req, err := json.Marshal(&payload)
+	p["key"] = a.apiKey
 
+	req, err := json.Marshal(p)
 	if err != nil {
 		return nil, err
 	}
@@ -84,4 +82,21 @@ func (a *Api) post(path string, payload interface{}) ([]byte, error) {
 	defer func() { _ = rsp.Body.Close() }()
 
 	return ioutil.ReadAll(rsp.Body)
+}
+
+// not ideal, but we don't want people to think they need to set the api key
+func convertToMap(payload interface{}) (map[string]interface{}, error) {
+	var out map[string]interface{}
+
+	buff, err := json.Marshal(&payload)
+	if err != nil {
+		return nil, err
+	}
+
+	err = json.Unmarshal(buff, &out)
+	if err != nil {
+		return nil, err
+	}
+
+	return out, nil
 }

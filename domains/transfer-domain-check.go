@@ -3,7 +3,6 @@ package domains
 import "encoding/json"
 
 type DomainTransferCheckReq struct {
-	Key string `json:"key"`
 	SLD string `json:"sld"`
 	TLD string `json:"tld"`
 }
