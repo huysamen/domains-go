@@ -5,6 +5,7 @@ import (
 	"crypto/tls"
 	"encoding/json"
 	"errors"
+	"github.com/huysamen/domains-go/reseller"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -20,7 +21,8 @@ type Api struct {
 	apiKey string
 	http   *http.Client
 
-	Domains *domains.Client
+	Domains  *domains.Client
+	Reseller *reseller.Client
 }
 
 func Default() (*Api, error) {
@@ -58,6 +60,7 @@ func Default() (*Api, error) {
 
 func (a *Api) createServices() {
 	a.Domains = domains.Create(a.post)
+	a.Reseller = reseller.Create(a.post)
 }
 
 func (a *Api) post(path string, payload interface{}) ([]byte, error) {
